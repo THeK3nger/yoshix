@@ -4,9 +4,13 @@ class YoshiEgg(object):
     A YoshiEgg class is used to store results from experiments.
     """
 
-    def __init__(self, recorded_data_idx ):
+    def __init__(self, recorded_data_idx):
         self._records_header = recorded_data_idx
         self._data = []
+
+    @property
+    def header(self):
+        return self._records_header
 
     def add_row(self, row):
         if len(row) != len(self._records_header):

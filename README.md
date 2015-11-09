@@ -24,8 +24,8 @@ class SmallExample(yoshix.YoshiExperiment):
 
         print("Single Run {}".format(self.run_counter))
         # ... Do some computation...
-        self.partial_egg["A"] = random.randint(0, 100)
-        self.partial_egg["B"] = random.randint(0, 100)
+        self.partial_egg["Data1"] = random.randint(0, 100)
+        self.partial_egg["Data2"] = random.randint(0, 100)
         # ... Do some other thing...
 
     def after_run(self):
@@ -38,8 +38,19 @@ The `single_run` method is where the actual experiment is computed. This method 
 
 The `after_run` method is where the experiment can perform some kind of global clean up (e.g., deleting files) or processing and exporting the collected data.
 
-### Generators
+### Generators and Fixed Parameters
 
-Yoshi's Generators are exactly like standard Python generators. They are linked to particulars parameters and are used by Yoshi in order to generate the input parameters.
+Yoshi's Generators are exactly like standard Python generators. They are linked to particulars parameters and are used by Yoshi in order to generate the input parameters. Any Python generator can be used as a generator.
 
-TODO
+In the following example we can see how to assign a fixed parameter and a variable parameters using a generator. In the example the `Min` parameter will be 0 for every experiment run. Otherwise the `Max` parameters use the `range` builtin generator in order to variate the Max parameter from 1 to 10.
+
+```python
+    def setup(self):
+        self.setup_egg(("Min", "Max", "A", "B"))
+        self.assign_fixed_parameter("Min", 0)
+        self.assign_generators("Max", range(1, 10))
+```
+
+### Exporting
+
+Once the experiment is completed and the egg is ready we can decide to export the egg in some other format. For instance we can decide to export the egg in CSV.

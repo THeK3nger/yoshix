@@ -51,12 +51,16 @@ class YoshiExperiment(object):
         self.__run_counter = 0
         while True:  # TODO: Is there a better way to iterate until the Iterator is empty?
             try:
-                self.__egg.add_row(self.__empty_row)
-                self.__run_counter += 1
-
                 # Generating Parameters dictionary
                 params = self.__fixed_parameters.copy()
                 params.update(self.__generate())
+
+                self.__egg.add_row(self.__empty_row)
+                self.__run_counter += 1
+
+                # Add the variable parameters to the egg.
+                for g in self._generators.keys():
+                    self.__egg[g] = params[g]
 
                 self.single_run(params)
             except StopIteration:

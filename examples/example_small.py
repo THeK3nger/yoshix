@@ -1,4 +1,6 @@
 import yoshix
+from yoshix.exporter import YoshiEggCSVExporter
+
 import random
 
 
@@ -17,5 +19,5 @@ class SmallExample(yoshix.YoshiExperiment):
         print("Single Run {}".format(self.run_counter))
 
     def after_run(self):
-        print(self.egg._data)
+        YoshiEggCSVExporter(self.egg, "test.csv").export()
         print("Bye Bye")
