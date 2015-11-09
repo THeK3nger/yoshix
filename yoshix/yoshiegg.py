@@ -29,6 +29,9 @@ class YoshiEgg(object):
         else:
             return self._data[key]
 
+    def __contains__(self, item):
+        return item in self._records_header
+
 
 class YoshiEggKeyException(Exception):
     pass
