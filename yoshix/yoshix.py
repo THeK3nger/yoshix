@@ -1,5 +1,4 @@
 from itertools import product
-
 from yoshix.yoshiegg import YoshiEgg, YoshiEggKeyException
 
 
@@ -16,14 +15,13 @@ class YoshiExperiment(object):
 
     def __init__(self):
         self.name = self.__class__.__name__
-        self._generators = {}
+        self._generators = {}  # Dictionary to map a parameter to a generator.
         self.__egg = None
         self._egg_is_ready = False  # Egg is ready only after the experiment.
-        self.__empty_row = None
-        self.__run_counter = 0
-        self.__fixed_parameters = {}
-        self.__generators_iterator = None
-
+        self.__empty_row = None  # Store the initialization values for the egg rows.
+        self.__run_counter = 0  # Store the iteration number.
+        self.__fixed_parameters = {}  # Store the fixed parameters.
+        self.__generators_iterator = None # Store the combined product-iterator for every generators.
 
     def setup(self):
         """
@@ -71,13 +69,16 @@ class YoshiExperiment(object):
         """
         This method is invoked after the experiment is completed.
 
-        Can be used to package the result Egg, clean up the disk and more.
+        Can be used to package the result Egg, clean up the disk, export to CSV and more.
         :return:
         """
         pass
 
     @property
     def partial_egg(self):
+        """
+        :return: Return an external reference to the experiment Egg to be used **during** the experiment.
+        """
         if self.__egg is None:
             raise EggNotReady("Try to access an egg that is None")
         else:
@@ -85,20 +86,33 @@ class YoshiExperiment(object):
 
     @property
     def egg(self):
+        """
+        :return: Return an external reference to the experiment **AFTER** the experiment.
+        """
         if self._egg_is_ready:
             return self.__egg
         if self.__egg is None:
             raise EggNotReady("Try to access an egg that is None")
         elif not self._egg_is_ready:
-            raise EggNotReady("The egg is there but the experiment is not completed yet!")
+            raise EggNotReady("The egg is there but the experiment is not completed yet!\n\
+            Maybe you are looking for partial_egg?")
         else:
             raise Exception("Something is really wrong there!")
 
     @property
     def run_counter(self):
+        """
+        :return: Return the number of the current iteration.
+        """
         return self.__run_counter
 
     def setup_egg(self, data_headers, row_initialization=None):
+        """
+        This method is used to initialize the experiment egg.
+        :param data_headers: The tuple of the experiment parameters and desired computed outputs.
+        :param row_initialization: A vector representing an empty row. Default is a vector of zeros.
+        :return:
+        """
         self.__egg = YoshiEgg(data_headers)
         # If row_init is None we assume all zeroes.
         if row_initialization is None:
@@ -109,6 +123,12 @@ class YoshiExperiment(object):
             raise YoshiEggKeyException("Initialization vector does not match the header.")
 
     def assign_generators(self, key, generator):
+        """
+        Link a generator with a particular parameter of the algorithm.
+        :param key: The parameter key identifier.
+        :param generator: The desired generator.
+        :return:
+        """
         if key not in self.__egg:
             raise YoshiEggKeyException("It is not possible to attach a generator to an unknown key!")
         self._generators[key] = generator
@@ -116,15 +136,32 @@ class YoshiExperiment(object):
         self.__generators_iterator = product(*gen_list)
 
     def assign_fixed_parameter(self, key, value):
+        """
+        Link a parameter with a fixed value.
+        :param key: The parameter key identifier.
+        :param value: The desired value.
+        :return:
+        """
         if key not in self.__egg:
             raise YoshiEggKeyException("It is not possible to attach a value to an unknown key!")
         self.__fixed_parameters[key] = value
 
     def __generate(self):
+        """
+        This is used in order to generate a new set of variable parameters (using the generators list)
+        :return: A dictionary with the current variable parameters values.
+        """
         if self.__generators_iterator is not None:
             current_iteration = next(self.__generators_iterator)
             return {k: v for k, v in zip(self._generators.keys(), current_iteration)}
 
+    def run(self):
+        self.setup()
+        self._run_experiment()
+        self.after_run()
+
 
 class EggNotReady(Exception):
     pass
+
+
