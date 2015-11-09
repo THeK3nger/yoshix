@@ -6,7 +6,7 @@
 
 YoshiX is directly inspired by Unit Testing but provide also functionality to store, process and export heterogeneous data coming from algorithms and experiments.
 
-## Examples
+## Usage
 
 ### Collecting Data
 
@@ -45,12 +45,30 @@ Yoshi's Generators are exactly like standard Python generators. They are linked 
 In the following example we can see how to assign a fixed parameter and a variable parameters using a generator. In the example the `Min` parameter will be 0 for every experiment run. Otherwise the `Max` parameters use the `range` builtin generator in order to variate the Max parameter from 1 to 10.
 
 ```python
-    def setup(self):
-        self.setup_egg(("Min", "Max", "A", "B"))
-        self.assign_fixed_parameter("Min", 0)
-        self.assign_generators("Max", range(1, 10))
+def setup(self):
+    self.setup_egg(("Min", "Max", "A", "B"))
+    self.assign_fixed_parameter("Min", 0)
+    self.assign_generators("Max", range(1, 10))
 ```
 
 ### Exporting
 
 Once the experiment is completed and the egg is ready we can decide to export the egg in some other format. For instance we can decide to export the egg in CSV.
+
+```python
+def after_run(self):
+    YoshiEggCSVExporter(self.egg, "test.csv").export()
+    print("Bye Bye")
+```
+
+In this example we use the `YoshiEggCSVExporter` exporter in order to export the egg into a csv file.
+
+### Command line usage
+
+Once you have a set of experiments in a folder (for instance, "examples") you can use
+
+```
+yoshi_run ./examples
+```
+
+in order to run all the experiments in the folder.
