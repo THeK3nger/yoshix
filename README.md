@@ -2,9 +2,19 @@
 
 ![YoshiX](/images/yoshi.png)
 
-**YoshiX** (_Yoshi Experiment_) is a library for collecting and processing experimental data such as benchmarks results. This is particularly suited for experiment who require to run an algorithm several time with different parameters combinations.
+**YoshiX** (_Yoshi E**X**periment_) is a library for collecting and processing experimental data such as benchmarks results. This is particularly suited for experiment who require to run an algorithm several time with different parameters combinations.
 
 YoshiX is directly inspired by Unit Testing but provide also functionality to store, process and export heterogeneous data coming from algorithms and experiments.
+
+## Features
+
+The slowly increasing list of features includes:
+
+ * Runs experiments in a replicable way.
+ * Modular experiment specification! Each experiment is a python file, YoshiX will automatically find every experiment in a folder and will run each one of them!
+ * Automatically iterates over the parameter space according your own generators (any generator can be used as a source, from the `range` function to a custom generator!).
+ * Collects the experiment results in a sintetic way (the **YoshiX Egg**).
+ * Export the eggs into different formats (_CSV_, _JSON_ and many other to come).
 
 ## Usage
 
