@@ -5,14 +5,31 @@ class YoshiEgg(object):
     """
 
     def __init__(self, recorded_data_idx):
+        """
+        Initialize an empty Egg.
+
+        Data is stored in the form of a table.
+
+        :param recorded_data_idx: The header of the data table.
+        """
         self._records_header = recorded_data_idx
+
+        # The data table is represented with a "list of dictionaries" [{}].
         self._data = []
 
     @property
     def header(self):
+        """
+        :return: The egg table header.
+        """
         return self._records_header
 
     def add_row(self, row):
+        """
+        Add a row to the egg. The row must be of the same size of the header list.
+        :param row:
+        :return:
+        """
         if len(row) != len(self._records_header):
             raise YoshiEggKeyException("Row is not the same size of the table.")
         self._data.append({k: v for k, v in zip(self._records_header, row)})
