@@ -1,5 +1,5 @@
 import csv
-
+import json
 
 class YoshiEggExporter(object):
 
@@ -19,3 +19,10 @@ class YoshiEggCSVExporter(YoshiEggExporter):
             dict_writer = csv.DictWriter(output_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(self._egg._data)
+
+class YoshiEggJSONExporter(YoshiEggExporter):
+
+    def export(self):
+        with open(self._output, 'w', newline='') as output_file:
+            result = json.dumps(self._egg._data, separators=(',', ': '))
+            output_file.write(result)
