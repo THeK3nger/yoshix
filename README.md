@@ -13,7 +13,7 @@ The slowly increasing list of features includes:
  * Runs experiments in a replicable way.
  * Modular experiment specification! Each experiment is a python file, YoshiX will automatically find every experiment in a folder and will run each one of them!
  * Automatically iterates over the parameter space according your own generators (any generator can be used as a source, from the `range` function to a custom generator!).
- * Collects the experiment results in a sintetic way (the **YoshiX Egg**).
+ * Collects the experiment results in a synthetic way (the **YoshiX Egg**).
  * Export the eggs into different formats (_CSV_, _JSON_ and many other to come).
 
 ## Usage
