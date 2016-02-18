@@ -42,6 +42,9 @@ if __name__ == '__main__':
     modules = glob.glob(folder + "/*.py")
     experiments_modules = []
 
+    print("Welcome to Yoshi eXperiment!")
+    print("{} experiment(s) found...".format(len(modules)))
+
     # Load a module for each file in the folder.
     for f in modules:
         experiments_modules.append(import_module_from_file(f))

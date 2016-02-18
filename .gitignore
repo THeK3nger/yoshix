@@ -4,5 +4,7 @@
 .coverage
 *.pyproj
 *.sln
+yoshix.egg-info
 
 *.csv
+*.json

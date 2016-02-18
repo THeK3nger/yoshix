@@ -78,7 +78,7 @@ In this example we use the `YoshiEggCSVExporter` exporter in order to export the
 Once you have a set of experiments in a folder (for instance, "examples") you can use
 
 ```
-yoshi_run ./examples
+python -m yoshix.yoshi_run .\examples
 ```
 
 in order to run all the experiments in the folder.
