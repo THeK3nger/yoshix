@@ -8,3 +8,6 @@ yoshix.egg-info
 
 *.csv
 *.json
+
+dist/
+MANIFEST
