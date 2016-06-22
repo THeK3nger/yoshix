@@ -22,6 +22,7 @@ class YoshiExperiment(object):
         self.__run_counter = 0  # Store the iteration number.
         self.__fixed_parameters = {}  # Store the fixed parameters.
         self.__generators_iterator = None # Store the combined product-iterator for every generators.
+        self.__parameter_transformer = {} # Store a transformation function for the egg representation of the parameter.
 
     def setup(self):
         """
@@ -58,7 +59,7 @@ class YoshiExperiment(object):
 
                 # Add the variable parameters to the egg.
                 for g in self._generators.keys():
-                    self.__egg[g] = params[g]
+                    self.__egg[g] = self.__apply_transformer(g, params[g])
 
                 self.single_run(params)
             except StopIteration:
@@ -135,6 +136,11 @@ class YoshiExperiment(object):
         gen_list = [v for _, v in self._generators.items()]
         self.__generators_iterator = product(*gen_list)
 
+    def assign_transformer(self, key, transformer):
+        if key not in self.__egg:
+            raise YoshiEggKeyException("It is not possible to attach a transformator to an unknown key!")
+        self.__parameter_transformer[key] = transformer
+
     def assign_fixed_parameter(self, key, value):
         """
         Link a parameter with a fixed value.
@@ -154,6 +160,10 @@ class YoshiExperiment(object):
         if self.__generators_iterator is not None:
             current_iteration = next(self.__generators_iterator)
             return {k: v for k, v in zip(self._generators.keys(), current_iteration)}
+
+    def __apply_transformer(self, key, value):
+        return self.__parameter_transformer[key](value) \
+            if key in self.__parameter_transformer else value
 
     def run(self):
         self.setup()
