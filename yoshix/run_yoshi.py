@@ -36,7 +36,7 @@ def import_module_from_file(full_path_to_module):
         return module
 
 
-def print_header():
+def print_header(modules):
     print("Welcome to Yoshi eXperiment!")
     print("{} experiment(s) found...".format(len(modules)))
 
@@ -45,17 +45,19 @@ def print_usage():
     print("USAGE:")
     print("python -m yoshix.run_yoshi EXPERIMENTS_PATH")
 
-# MAIN
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
+def main(args=None):
+    if args is None:
+        argb = sys.argv[1:]
+
+    if len(args) < 1:
         print_usage()
         sys.exit(-1)
         
-    folder = sys.argv[1]
+    folder = args[0]
     modules = glob.glob(folder + "/*.py")
     experiments_modules = []
 
-    print_header()
+    print_header(modules)
 
     # Load a module for each file in the folder.
     for f in modules:
@@ -72,3 +74,7 @@ if __name__ == '__main__':
                 continue
             print("EXECUTION OF EXPERIMENT {}".format(exp_cls))
             ex().run()
+
+# MAIN
+if __name__ == '__main__':
+    main()
