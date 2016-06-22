@@ -20,7 +20,7 @@ The slowly increasing list of features includes:
 
 ### Collecting Data
 
-This is the basic structure for a Youshi experiment.
+This is the basic structure for a Yoshi experiment.
 
 ```python
 class SmallExample(yoshix.YoshiExperiment):
@@ -29,7 +29,7 @@ class SmallExample(yoshix.YoshiExperiment):
         # Setup the "egg" and the experiment.
         self.setup_egg(("Data1", "Data2"))
 
-    def single_run(self):
+    def single_run(self, params):
         # Run the actual experiment.
 
         print("Single Run {}".format(self.run_counter))
@@ -60,6 +60,20 @@ def setup(self):
     self.assign_fixed_parameter("Min", 0)
     self.assign_generators("Max", range(1, 10))
 ```
+
+### Parameter Transformer
+
+If some parameter contains complex object it is possible to assign a **transformer function** to the parameter in order to output a string representation of the object. You can imagine this as an external `__str__()` version for the parameter data.
+
+```python
+def setup(self):
+    self.setup_egg(("Map", "Start", "End", "ExpandedNodes"))
+    self.assign_generators("Map", benchmark.maps_loader())
+    self.assign_transformer("Map", lambda x: x.get_filename())
+    ...
+```
+
+In the example, `maps_loader` returns a list of parsed representations of some experimental maps. This is handy, because we can use the `params` field of the `single_run` to access the already parsed map. However, in the output egg we want a simpler representation of the map, e.g., the filename. So we attach a transformer function to the `Map` parameter to extract the filename from the map before it is put in the result egg.
 
 ### Exporting
 
