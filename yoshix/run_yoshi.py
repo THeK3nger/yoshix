@@ -47,7 +47,7 @@ def print_usage():
 
 def main(args=None):
     if args is None:
-        argb = sys.argv[1:]
+        args = sys.argv[1:]
 
     if len(args) < 1:
         print_usage()
