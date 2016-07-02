@@ -23,6 +23,7 @@ class YoshiExperiment(object):
         self.__fixed_parameters = {}  # Store the fixed parameters.
         self.__generators_iterator = None # Store the combined product-iterator for every generators.
         self.__parameter_transformer = {} # Store a transformation function for the egg representation of the parameter.
+        self.__private_generators = [] # List of hidden generators. Hidden generators are not put in the egg.
 
     def setup(self):
         """
@@ -59,7 +60,8 @@ class YoshiExperiment(object):
 
                 # Add the variable parameters to the egg.
                 for g in self._generators.keys():
-                    self.__egg[g] = self.__apply_transformer(g, params[g])
+                    if g not in self.__private_generators:
+                        self.__egg[g] = self.__apply_transformer(g, params[g])
 
                 self.single_run(params)
             except StopIteration:
@@ -123,18 +125,20 @@ class YoshiExperiment(object):
         else:
             raise YoshiEggKeyException("Initialization vector does not match the header.")
 
-    def assign_generators(self, key, generator):
+    def assign_generators(self, key, generator, private=False):
         """
         Link a generator with a particular parameter of the algorithm.
         :param key: The parameter key identifier.
         :param generator: The desired generator.
         :return:
         """
-        if key not in self.__egg:
+        if key not in self.__egg and not private:
             raise YoshiEggKeyException("It is not possible to attach a generator to an unknown key!")
         self._generators[key] = generator
         gen_list = [v for _, v in self._generators.items()]
         self.__generators_iterator = product(*gen_list)
+        if private:
+            self.__private_generators.append(key)
 
     def assign_transformer(self, key, transformer):
         if key not in self.__egg:
