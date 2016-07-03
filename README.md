@@ -75,6 +75,20 @@ def setup(self):
 
 In the example, `maps_loader` returns a list of parsed representations of some experimental maps. This is handy, because we can use the `params` field of the `single_run` to access the already parsed map. However, in the output egg we want a simpler representation of the map, e.g., the filename. So we attach a transformer function to the `Map` parameter to extract the filename from the map before it is put in the result egg.
 
+### Private Generators
+
+Sometimes we may want to use generators but we do not want to put themin the egg. We call this **private generators**. To use a private generator we can simply use the private flag in the generator setup.
+
+```python
+self.assign_generators("Private Data", range(1,10), private=True)
+```
+
+Private generators key are not specified in the egg setup (because they will not be written on the egg). Private generators can be used as standard `params` in the `single_run` body.
+
+```python
+print("Accessing Private Data with Value {}".format(params["Private Data"]))
+```
+
 ### Exporting
 
 Once the experiment is completed and the egg is ready we can decide to export the egg in some other format. For instance we can decide to export the egg in CSV.
@@ -92,7 +106,7 @@ In this example we use the `YoshiEggCSVExporter` exporter in order to export the
 Once you have a set of experiments in a folder (for instance, "examples") you can use
 
 ```
-python -m yoshix.yoshi_run .\examples
+python -m yoshix.run_yoshi .\examples
 ```
 
 in order to run all the experiments in the folder.
