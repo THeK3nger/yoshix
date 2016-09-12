@@ -1,6 +1,6 @@
-# YoshiX
+# YoshiX  [![PyPI](https://img.shields.io/pypi/v/yoshix.svg?maxAge=2592000)](https://pypi.python.org/pypi/yoshix) [![PyPI](https://img.shields.io/pypi/dm/yoshix.svg?maxAge=2592000)](https://pypi.python.org/pypi/yoshix)
 
-![YoshiX](/images/yoshi.png)
+![YoshiX](./images/yoshi.png)
 
 **YoshiX** (_Yoshi E**X**periment_) is a library for collecting and processing experimental data such as benchmarks results. This is particularly suited for experiment who require to run an algorithm several time with different parameters combinations.
 
@@ -12,7 +12,7 @@ The slowly increasing list of features includes:
 
  * Runs experiments in a replicable way.
  * Modular experiment specification! Each experiment is a python file, YoshiX will automatically find every experiment in a folder and will run each one of them!
- * Automatically iterates over the parameter space according your own generators (any generator can be used as a source, from the `range` function to a custom generator!).
+ * Automatically iterate over the parameter space according your own generators (any generator can be used as a source, from the `range` function to a custom generator!).
  * Collects the experiment results in a synthetic way (the **YoshiX Egg**).
  * Export the eggs into different formats (_CSV_, _JSON_ and many other to come).
 
@@ -77,7 +77,7 @@ In the example, `maps_loader` returns a list of parsed representations of some e
 
 ### Private Generators
 
-Sometimes we may want to use generators but we do not want to put themin the egg. We call this **private generators**. To use a private generator we can simply use the private flag in the generator setup.
+Sometimes we may want to use generators but we do not want to put them in the egg. We call this **private generators**. To use a private generator we can simply use the private flag in the generator setup.
 
 ```python
 self.assign_generators("Private Data", range(1,10), private=True)
