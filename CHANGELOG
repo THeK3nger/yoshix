@@ -1,0 +1,7 @@
+# What's new
+
+# Changes from 0.5 to 0.6
+
+ * [NEW] Parameter Transformers: It is now possible to add transformation functions to experiment's parameters. This can be handy to iterate experiments on complex parameters (Objects, complex generators) but exporting simpler string in the output files.
+ * [NEW] Private Generators are generators that will be used in the iterations but they will not be output in the result egg.
+ * [FIX] Some bugs in the command line interface.

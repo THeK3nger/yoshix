@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='yoshix',
-    version='0.5.0',
+    version='0.6.0',
     packages=['yoshix'],
     url='https://github.com/THeK3nger/yoshix',
     license='MIT',
